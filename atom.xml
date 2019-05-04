@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-05-03T15:52:15.632Z</updated>
+  <updated>2019-05-03T16:01:23.877Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
+    <title>这是一个中文测试帖</title>
     <link href="http://yoursite.com/2019/05/03/%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E6%B5%8B%E8%AF%95%E5%B8%96/"/>
     <id>http://yoursite.com/2019/05/03/这是一个测试帖/</id>
     <published>2019-05-03T15:39:34.600Z</published>
-    <updated>2019-05-03T15:52:15.632Z</updated>
+    <updated>2019-05-03T16:01:23.877Z</updated>
     
     <content type="html"><![CDATA[<h1 id="这是一个中文测试帖"><a href="#这是一个中文测试帖" class="headerlink" title="这是一个中文测试帖"></a>这是一个中文测试帖</h1><p><a href="[https://github.com/wang-Z/wang-Z.github.io/tree/master/img](https://github.com/wang-Z/wang-Z.github.io/tree/master/img/wang-Z.jpg">头像</a></p><p>人的本能是追逐从他身边飞走的东西，却逃避追逐他的东西.</p>]]></content>
     

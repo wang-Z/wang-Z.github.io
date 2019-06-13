@@ -18,8 +18,8 @@
   
   <entry>
     <title>各种技巧和坑-html</title>
-    <link href="http://yoursite.com/2019/05/23/%E5%90%84%E7%A7%8D%E7%9A%84%E6%8A%80%E5%B7%A7%E5%9D%91-html+css/"/>
-    <id>http://yoursite.com/2019/05/23/各种的技巧坑-html+css/</id>
+    <link href="http://yoursite.com/2019/05/23/%E7%9B%92%E5%AD%90%E5%B1%85%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95/"/>
+    <id>http://yoursite.com/2019/05/23/盒子居中的方法/</id>
     <published>2019-05-23T06:36:01.819Z</published>
     <updated>2019-05-24T12:25:48.682Z</updated>
     
@@ -47,8 +47,8 @@
   
   <entry>
     <title>各种技巧和坑-js</title>
-    <link href="http://yoursite.com/2019/05/23/%E5%90%84%E7%A7%8D%E7%9A%84%E6%8A%80%E5%B7%A7%E5%9D%91-js/"/>
-    <id>http://yoursite.com/2019/05/23/各种的技巧坑-js/</id>
+    <link href="http://yoursite.com/2019/05/23/%E6%B7%B1%E6%8B%B7%E8%B4%9D/"/>
+    <id>http://yoursite.com/2019/05/23/深拷贝/</id>
     <published>2019-05-23T06:26:13.550Z</published>
     <updated>2019-05-23T06:35:26.986Z</updated>
     
@@ -79,9 +79,9 @@
     <link href="http://yoursite.com/2019/05/03/%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E6%B5%8B%E8%AF%95%E5%B8%96/"/>
     <id>http://yoursite.com/2019/05/03/这是一个测试帖/</id>
     <published>2019-05-03T15:39:34.600Z</published>
-    <updated>2019-05-23T12:52:15.953Z</updated>
+    <updated>2019-06-13T00:21:27.358Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="这是一个中文测试帖"><a href="#这是一个中文测试帖" class="headerlink" title="这是一个中文测试帖"></a>这是一个中文测试帖</h1><p><img alt="头像" src="https://raw.githubusercontent.com/wang-Z/wang-Z.github.io/master/img/wang-Z.png"><br>​    <img src="http://p1.pstatp.com/origin/2a4100008d310b5fd8a8" alt="风景"></p><p>人的本能是追逐从他身边飞走的东西，却逃避追逐他的东西.</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="这是一个中文测试帖"><a href="#这是一个中文测试帖" class="headerlink" title="这是一个中文测试帖"></a>这是一个中文测试帖</h1><p><img alt="头像" src="https://raw.githubusercontent.com/wang-Z/wang-Z.github.io/master/img/wang-Z.png"></p><p><img alt="头像" src="https://raw.githubusercontent.com/wang-Z/wang-Z.github.io/master/img/层叠等级.jpg">    <img src="http://p1.pstatp.com/origin/2a4100008d310b5fd8a8" alt="风景"></p><p>人的本能是追逐从他身边飞走的东西，却逃避追逐他的东西.</p>]]></content>
     
     <summary type="html">
     

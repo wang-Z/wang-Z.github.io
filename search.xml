@@ -4,19 +4,6 @@
   
     
     <entry>
-      <title></title>
-      <link href="2023/04/27/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/"/>
-      <url>2023/04/27/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/</url>
-      
-        <content type="html"><![CDATA[<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">vue3-实现SSO单点登录</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2023-03-01 11:00:15</span> </span><br><span class="line"><span class="attr">tags:</span> [<span class="string">javascript</span>,<span class="string">vue，SSO，vue-router</span>] </span><br><span class="line"><span class="attr">categories:</span> <span class="string">vue</span></span><br><span class="line"><span class="attr">cover:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">sidebar:</span> [<span class="string">grid</span>, <span class="string">toc</span>, <span class="string">tags</span>]</span><br><span class="line"><span class="attr">author:</span></span><br><span class="line">  <span class="attr">name: Mr.wang  avatar:</span> <span class="string">https://wang-z.gitee.io/img/author.jpg</span></span><br></pre></td></tr></table></figure><blockquote><p>为了统一登录注册方式实现的单点登录，用户只需要登录一次就可以访问所有相互信任的应用系统</p><p>授权码鉴权：基于单点登录系统鉴权方式为token，兼容子系统任何鉴权方式（seesion，token）</p></blockquote><h3 id="SSO流程图"><a href="#SSO流程图" class="headerlink" title="SSO流程图"></a>SSO流程图</h3><p><img src="https://wang-z.gitee.io/img/sso-sign-flow.jpeg" class="lazyload" data-srcset="https://wang-z.gitee.io/img/sso-sign-flow.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="nullAndundefined.png"></p><h3 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h3><blockquote><p>在SSO认证中心获取clientId以及后端所需的公钥</p></blockquote><h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><p>子系统业务正常访问（子系统维护登录会话），</p><ol><li><p>当访问失效时，清除本地登录信息，并且跳转到SSO-登录界面</p></li><li><p>SSO生成ticket并重定向到子系统进行验证ticket</p></li><li><p>（3）子系统成功通过ticket进行登录，进入子系统业务界面</p></li></ol><blockquote><p>登录接口规范</p><ol><li><p>域名：<a href="https://sso.your-site.com/login">https://sso.your-site.com/login</a></p></li><li><p>query参数：</p><p>（1）client_id：客户端ID </p><p>（2）lang：语言（zh-CN，en-US）</p><p>（3）redirect_url（需转码escape）：登录成功后返回的地址-携带临时令牌（ticket）</p></li></ol></blockquote><h3 id="登出"><a href="#登出" class="headerlink" title="登出"></a>登出</h3><p>子系统需要退出用户，子系统提供退出接口供SSO调用，当SSO退出时，其他子系统也需要退出用户</p><ol><li><p>跳转至SSO的logout前端路由</p></li><li><p>SSO将会发起退出接口后重定向到登录界面</p></li></ol>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>axios的封装</title>
       <link href="2023/03/02/ajax-axios%E7%9A%84%E5%B0%81%E8%A3%85/"/>
       <url>2023/03/02/ajax-axios%E7%9A%84%E5%B0%81%E8%A3%85/</url>
@@ -36,6 +23,33 @@
             <tag> javascript </tag>
             
             <tag> axios </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>vue3-实现SSO单点登录</title>
+      <link href="2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/"/>
+      <url>2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>为了统一登录注册方式实现的单点登录，用户只需要登录一次就可以访问所有相互信任的应用系统</p><p>授权码鉴权：基于单点登录系统鉴权方式为token，兼容子系统任何鉴权方式（seesion，token）</p></blockquote><h3 id="SSO流程图"><a href="#SSO流程图" class="headerlink" title="SSO流程图"></a>SSO流程图</h3><p><img src="https://wang-z.github.io/img/sso-sign-flow.jpeg" class="lazyload" data-srcset="https://wang-z.github.io/img/sso-sign-flow.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="SSO"></p><h3 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h3><blockquote><p>在SSO认证中心获取clientId以及后端所需的公钥</p></blockquote><h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><p>子系统业务正常访问（子系统维护登录会话），</p><ol><li><p>当访问失效时，清除本地登录信息，并且跳转到SSO-登录界面</p></li><li><p>SSO生成ticket并重定向到子系统进行验证ticket</p></li><li><p>（3）子系统成功通过ticket进行登录，进入子系统业务界面</p></li></ol><blockquote><p>登录接口规范</p><ol><li><p>域名：<a href="https://sso.your-site.com/login">https://sso.your-site.com/login</a></p></li><li><p>query参数：</p><p>（1）client_id：客户端ID </p><p>（2）lang：语言（zh-CN，en-US）</p><p>（3）redirect_url（需转码escape）：登录成功后返回的地址-携带临时令牌（ticket）</p></li></ol></blockquote><h3 id="登出"><a href="#登出" class="headerlink" title="登出"></a>登出</h3><p>子系统需要退出用户，子系统提供退出接口供SSO调用，当SSO退出时，其他子系统也需要退出用户</p><ol><li><p>跳转至SSO的logout前端路由</p></li><li><p>SSO将会发起退出接口后重定向到登录界面</p></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> vue </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> javascript </tag>
+            
+            <tag> vue，SSO，vue-router </tag>
             
         </tags>
       

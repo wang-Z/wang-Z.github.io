@@ -22,7 +22,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>Mr.wang&#39;blog</title>
+  <title>vue3-实现SSO单点登录 - Mr.wang&#39;blog</title>
+  
+    <meta name="keywords" content="javascript,vue，SSO，vue-router">
   
 
   
@@ -475,18 +477,72 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
     
     
+      <h1 class="title">
+        vue3-实现SSO单点登录
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' target="_blank" href="https://github.com/volantis-x/" rel="nofollow noopener">
+    <img no-lazy src="https://wang-z.gitee.io/img/author.jpg">
+    <p>Mr.wang</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/vue/">vue</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2023年3月1日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="vue3-实现SSO单点登录" data-path="/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+    
   </div>
 
 
   
   
-  <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">vue3-实现SSO单点登录</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2023-03-01 11:00:15</span> </span><br><span class="line"><span class="attr">tags:</span> [<span class="string">javascript</span>,<span class="string">vue，SSO，vue-router</span>] </span><br><span class="line"><span class="attr">categories:</span> <span class="string">vue</span></span><br><span class="line"><span class="attr">cover:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">sidebar:</span> [<span class="string">grid</span>, <span class="string">toc</span>, <span class="string">tags</span>]</span><br><span class="line"><span class="attr">author:</span></span><br><span class="line">  <span class="attr">name: Mr.wang  avatar:</span> <span class="string">https://wang-z.gitee.io/img/author.jpg</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
+  <blockquote>
 <p>为了统一登录注册方式实现的单点登录，用户只需要登录一次就可以访问所有相互信任的应用系统</p>
 <p>授权码鉴权：基于单点登录系统鉴权方式为token，兼容子系统任何鉴权方式（seesion，token）</p>
 </blockquote>
-<h3 id="SSO流程图"><a href="#SSO流程图" class="headerlink" title="SSO流程图"></a>SSO流程图</h3><p><img src="https://wang-z.gitee.io/img/sso-sign-flow.jpeg" class="lazyload" data-srcset="https://wang-z.gitee.io/img/sso-sign-flow.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="nullAndundefined.png"></p>
+<h3 id="SSO流程图"><a href="#SSO流程图" class="headerlink" title="SSO流程图"></a>SSO流程图</h3><p><img src="https://wang-z.github.io/img/sso-sign-flow.jpeg" class="lazyload" data-srcset="https://wang-z.github.io/img/sso-sign-flow.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="SSO"></p>
 <h3 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h3><blockquote>
 <p>在SSO认证中心获取clientId以及后端所需的公钥</p>
 </blockquote>
@@ -535,7 +591,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
               
             
               
-                <p>本文永久链接是：<a href=http://wang-z.gitee.io/2023/04/27/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/>http://wang-z.gitee.io/2023/04/27/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/</a></p>
+                <p>本文永久链接是：<a href=http://wang-z.gitee.io/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/>http://wang-z.gitee.io/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/</a></p>
               
             
           </blockquote>
@@ -552,10 +608,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-04-27T11:30:39+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-05-24T17:02:26+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>本页文档最后更新于：2023年4月27日</p>
+    <p>本页文档最后更新于：2023年5月24日</p>
   </a>
 </div>
 
@@ -563,6 +619,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         
           
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/javascript/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>javascript</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/vue%EF%BC%8CSSO%EF%BC%8Cvue-router/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>vue，SSO，vue-router</p></a></div>
+
 
         
       
@@ -574,7 +633,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://wang-z.gitee.io/2023/04/27/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title= - Mr.wang'blog&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://wang-z.gitee.io/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title=vue3-实现SSO单点登录 - Mr.wang'blog&summary="
           
           >
           
@@ -586,7 +645,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://wang-z.gitee.io/2023/04/27/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title= - Mr.wang'blog&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://wang-z.gitee.io/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title=vue3-实现SSO单点登录 - Mr.wang'blog&summary="
           
           >
           
@@ -598,7 +657,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://wang-z.gitee.io/2023/04/27/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title= - Mr.wang'blog&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://wang-z.gitee.io/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title=vue3-实现SSO单点登录 - Mr.wang'blog&summary="
           
           >
           
@@ -628,14 +687,24 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     <div class="prev-next">
       
-      
-        <a class='next' href='/2023/03/02/ajax-axios%E7%9A%84%E5%B0%81%E8%A3%85/'>
-          <p class='title'>axios的封装<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+        <a class='prev' href='/2023/03/02/ajax-axios%E7%9A%84%E5%B0%81%E8%A3%85/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>axios的封装</p>
           <p class='content'>
 axios使用习惯上的多次封装，记录当前使用的封装说明：axios的封装是基于日常业务所需，需要请求全局遮罩和判断是否使用后端的msg作为提示，根据后端状态码（401，403）做特殊处理
 
 
 ...</p>
+        </a>
+      
+      
+        <a class='next' href='/2022/03/01/vue-%E5%89%8D%E7%AB%AFhash%E5%92%8Chistory%E8%B7%AF%E7%94%B1%E4%BB%A5%E5%8F%8A%E9%A2%84%E6%B8%B2%E6%9F%93/'>
+          <p class='title'>前端hash和history路由以及预渲染<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>
+前端hash和history路由以及预渲染使用插件prerender-spa-plugin
+
+
+
+hash模式原理: 在 url 中的 # 之后对应的是 hash 值, 其原理是通过hashC...</p>
         </a>
       
     </div>
@@ -663,6 +732,8 @@ axios使用习惯上的多次封装，记录当前使用的封装说明：axios�
 <aside class='l_side'>
   
   
+
+  
     
     
 
@@ -685,6 +756,8 @@ axios使用习惯上的多次封装，记录当前使用的封装说明：axios�
 
   
 
+  
+
 
 </aside>
 
@@ -696,8 +769,8 @@ axios使用习惯上的多次封装，记录当前使用的封装说明：axios�
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="vue3-实现SSO单点登录";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
   // header 这里无论是否开启pjax都需要

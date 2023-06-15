@@ -28,6 +28,12 @@
   
 
   
+    <meta name="description" content="
+为了统一登录注册方式实现的单点登录，用户只需要登录一次就可以访问所有相互信任的应用系统
+授权码鉴权：基于单点登录系统鉴权方式为token，兼容子系统任何鉴权方式（seesion，token）
+
+SSO流程图">
+  
 
   <!-- feed -->
   
@@ -543,6 +549,8 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>授权码鉴权：基于单点登录系统鉴权方式为token，兼容子系统任何鉴权方式（seesion，token）</p>
 </blockquote>
 <h3 id="SSO流程图"><a href="#SSO流程图" class="headerlink" title="SSO流程图"></a>SSO流程图</h3><p><img src="https://wang-z.github.io/img/sso-sign-flow.jpeg" class="lazyload" data-srcset="https://wang-z.github.io/img/sso-sign-flow.jpeg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" alt="SSO"></p>
+<span id="more"></span>
+
 <h3 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h3><blockquote>
 <p>在SSO认证中心获取clientId以及后端所需的公钥</p>
 </blockquote>
@@ -574,6 +582,18 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <li><p>SSO将会发起退出接口后重定向到登录界面</p>
 </li>
 </ol>
+<h2 id="保持登录状态"><a href="#保持登录状态" class="headerlink" title="保持登录状态"></a>保持登录状态</h2><blockquote>
+<p>由于子系统经过sso-login后，登录状态是由cookie去维持会话，当第二次sso-login后旧的界面没有进行刷新将会导致旧的界面显示旧的用户</p>
+</blockquote>
+<h4 id="1-使用定时器轮询监听cookie变化"><a href="#1-使用定时器轮询监听cookie变化" class="headerlink" title="1. 使用定时器轮询监听cookie变化"></a>1. 使用定时器轮询监听cookie变化</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> oldCookie = <span class="built_in">document</span>.cookie;</span><br><span class="line"></span><br><span class="line"><span class="built_in">setInterval</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> newCookie = <span class="built_in">document</span>.cookie;</span><br><span class="line">  <span class="keyword">if</span> (newCookie !== oldCookie) &#123;</span><br><span class="line">    <span class="comment">// Cookie 已经更新，执行相应的操作</span></span><br><span class="line">    location.reload(); <span class="comment">// 刷新页面</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>); <span class="comment">// 每秒钟检查一次</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>document.cookie</code> 可以获取当前页面中设置的 Cookie 值，但它无法获取服务器通过 Set-Cookie 响应头设置的 Cookie 值</p>
+</blockquote>
+<h5 id="cookie获取不到问题"><a href="#cookie获取不到问题" class="headerlink" title="cookie获取不到问题"></a>cookie获取不到问题</h5><p>通过请求时获取headers中的set-cookie</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">import axios from &#39;axios&#39;;</span><br><span class="line"></span><br><span class="line">const api &#x3D; axios.create(&#123;</span><br><span class="line">  baseURL: &#39;http:&#x2F;&#x2F;example.com&#x2F;api&#39;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">api.interceptors.response.use(</span><br><span class="line">  (response) &#x3D;&gt; &#123;</span><br><span class="line">    &#x2F;&#x2F; 处理 Set-Cookie 响应头</span><br><span class="line">    const setCookie &#x3D; response.headers[&#39;set-cookie&#39;];</span><br><span class="line">    if (setCookie) &#123;</span><br><span class="line">      const cookies &#x3D; setCookie.map((cookie) &#x3D;&gt; &#123;</span><br><span class="line">        return cookie.split(&#39;;&#39;)[0];</span><br><span class="line">      &#125;);</span><br><span class="line">      &#x2F;&#x2F; 将 Set-Cookie 转化为 Cookie，并设置到客户端浏览器中</span><br><span class="line">      cookies.forEach((cookie) &#x3D;&gt; &#123;</span><br><span class="line">        document.cookie &#x3D; cookie;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    return response;</span><br><span class="line">  &#125;,</span><br><span class="line">  (error) &#x3D;&gt; &#123;</span><br><span class="line">    return Promise.reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">export default api;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-在请求库的拦截器中判断cookie变化进行刷新界面"><a href="#2-在请求库的拦截器中判断cookie变化进行刷新界面" class="headerlink" title="2. 在请求库的拦截器中判断cookie变化进行刷新界面"></a>2. 在请求库的拦截器中判断cookie变化进行刷新界面</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> api = axios.create(&#123;</span><br><span class="line">  baseURL: <span class="string">&#x27;http://example.com/api&#x27;</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">api.interceptors.response.use(</span><br><span class="line">  (response) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 处理 Set-Cookie 响应头</span></span><br><span class="line">    <span class="keyword">const</span> setCookie = response.headers[<span class="string">&#x27;set-cookie&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span> (setCookie) &#123;</span><br><span class="line">      <span class="keyword">const</span> cookies = setCookie.map(<span class="function">(<span class="params">cookie</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> cookie.split(<span class="string">&#x27;;&#x27;</span>)[<span class="number">0</span>];</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="comment">// 将 Set-Cookie 转化为 Cookie</span></span><br><span class="line">      <span class="keyword">const</span> cookieString = cookies.join(<span class="string">&#x27;;&#x27;</span>);</span><br><span class="line">      <span class="comment">// 存储 Cookie 值到 Local Storage</span></span><br><span class="line">      <span class="built_in">localStorage</span>.setItem(<span class="string">&#x27;cookie&#x27;</span>, cookieString);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> response;</span><br><span class="line">  &#125;,</span><br><span class="line">  (error) =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在发送请求前，检查 Cookie 值是否发生变化</span></span><br><span class="line">api.interceptors.request.use(</span><br><span class="line">  (config) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 从 Local Storage 中获取保存的 Cookie 值</span></span><br><span class="line">    <span class="keyword">const</span> savedCookie = <span class="built_in">localStorage</span>.getItem(<span class="string">&#x27;cookie&#x27;</span>);</span><br><span class="line">    <span class="comment">// 比较保存的 Cookie 值和当前请求中的 Cookie 值是否相同</span></span><br><span class="line">    <span class="keyword">if</span> (savedCookie &amp;&amp; config.headers.cookie !== savedCookie) &#123;</span><br><span class="line">      <span class="comment">// Cookie 值发生变化，触发页面刷新</span></span><br><span class="line">      <span class="built_in">window</span>.location.reload();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> config;</span><br><span class="line">  &#125;,</span><br><span class="line">  (error) =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> api;</span><br></pre></td></tr></table></figure>
 
   
   
@@ -608,10 +628,10 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-05-24T17:02:26+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2023-06-15T10:35:32+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>本页文档最后更新于：2023年5月24日</p>
+    <p>本页文档最后更新于：2023年6月15日</p>
   </a>
 </div>
 
@@ -633,7 +653,11 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://wang-z.gitee.io/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title=vue3-实现SSO单点登录 - Mr.wang'blog&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://wang-z.gitee.io/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title=vue3-实现SSO单点登录 - Mr.wang'blog&summary=
+为了统一登录注册方式实现的单点登录，用户只需要登录一次就可以访问所有相互信任的应用系统
+授权码鉴权：基于单点登录系统鉴权方式为token，兼容子系统任何鉴权方式（seesion，token）
+
+SSO流程图"
           
           >
           
@@ -645,7 +669,11 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://wang-z.gitee.io/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title=vue3-实现SSO单点登录 - Mr.wang'blog&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://wang-z.gitee.io/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title=vue3-实现SSO单点登录 - Mr.wang'blog&summary=
+为了统一登录注册方式实现的单点登录，用户只需要登录一次就可以访问所有相互信任的应用系统
+授权码鉴权：基于单点登录系统鉴权方式为token，兼容子系统任何鉴权方式（seesion，token）
+
+SSO流程图"
           
           >
           
@@ -657,7 +685,11 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://wang-z.gitee.io/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title=vue3-实现SSO单点登录 - Mr.wang'blog&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://wang-z.gitee.io/2023/03/01/vue-%E5%AE%9E%E7%8E%B0SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/&title=vue3-实现SSO单点登录 - Mr.wang'blog&summary=
+为了统一登录注册方式实现的单点登录，用户只需要登录一次就可以访问所有相互信任的应用系统
+授权码鉴权：基于单点登录系统鉴权方式为token，兼容子系统任何鉴权方式（seesion，token）
+
+SSO流程图"
           
           >
           
@@ -749,7 +781,7 @@ hash模式原理: 在 url 中的 # 之后对应的是 hash 值, 其原理是通�
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#SSO%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text">SSO流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90"><span class="toc-text">前提</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95"><span class="toc-text">登录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%87%BA"><span class="toc-text">登出</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#SSO%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text">SSO流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90"><span class="toc-text">前提</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95"><span class="toc-text">登录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%87%BA"><span class="toc-text">登出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%9D%E6%8C%81%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81"><span class="toc-text">保持登录状态</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8%E8%BD%AE%E8%AF%A2%E7%9B%91%E5%90%ACcookie%E5%8F%98%E5%8C%96"><span class="toc-text">1. 使用定时器轮询监听cookie变化</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#cookie%E8%8E%B7%E5%8F%96%E4%B8%8D%E5%88%B0%E9%97%AE%E9%A2%98"><span class="toc-text">cookie获取不到问题</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%9C%A8%E8%AF%B7%E6%B1%82%E5%BA%93%E7%9A%84%E6%8B%A6%E6%88%AA%E5%99%A8%E4%B8%AD%E5%88%A4%E6%96%ADcookie%E5%8F%98%E5%8C%96%E8%BF%9B%E8%A1%8C%E5%88%B7%E6%96%B0%E7%95%8C%E9%9D%A2"><span class="toc-text">2. 在请求库的拦截器中判断cookie变化进行刷新界面</span></a></li></ol></li></ol>
     </div>
   </section>
 
